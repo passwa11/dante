@@ -25,12 +25,7 @@ jobs:
             install: apt-get update && apt-get install -y build-essential gcc make autoconf automake perl m4
           - name: alpine
             image: alpine:latest
-            install: |
-              set -ex
-              apk add --no-cache build-base gcc make autoconf automake perl m4
-              echo "http://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories
-              apk add --update automake1.16
-              ln -sf /usr/bin/aclocal-1.16 /usr/bin/aclocal
+            install: apk add --no-cache build-base gcc make autoconf automake perl m4
 
     steps:
       - name: Checkout source
