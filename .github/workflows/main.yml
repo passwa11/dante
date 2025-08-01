@@ -30,33 +30,24 @@ jobs:
             image: alpine:latest
             install: apk add --no-cache build-base gcc make autoconf automake
 
-    container:
-      image: ${{ matrix.image }}
-
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
 
-      - name: Install build tools
-        run: ${{ matrix.install }}
-
-      - name: Build dante
+      - name: Build in Docker
         run: |
-          cd dante
-          if [ -f ./configure ]; then
-            chmod +x ./configure
-            ./configure
-          fi
-          make
-          ls -lsh
+          docker run --rm -v ${{ github.workspace }}/dante:/src -w /src ${{ matrix.image }} /bin/sh -c "
+            set -ex
+            ${{ matrix.install }}
+            if [ -f ./configure ]; then chmod +x ./configure; ./configure; fi
+            make
+            mkdir -p /src/build-out/${{ matrix.name }}
+            cp danted /src/build-out/${{ matrix.name }}/ || true
+            cp dante  /src/build-out/${{ matrix.name }}/ || true
+          "
 
       - name: Upload dante binary artifact
-        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: dante-bin-${{ matrix.name }}
-          path: |
-            dante/*/sockd
-            dante/*/sockd
-            dante/sockd
-            dante/sockd
+          path: dante/build-out/${{ matrix.name }}/
