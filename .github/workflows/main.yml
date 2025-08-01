@@ -23,9 +23,6 @@ jobs:
           - name: debian
             image: debian:stable
             install: apt-get update && apt-get install -y build-essential gcc make autoconf automake
-          - name: centos
-            image: centos:7
-            install: yum install -y gcc make autoconf automake
           - name: alpine
             image: alpine:latest
             install: apk add --no-cache build-base gcc make autoconf automake
