@@ -19,13 +19,13 @@ jobs:
         include:
           - name: ubuntu
             image: ubuntu:22.04
-            install: apt-get update && apt-get install -y build-essential gcc make autoconf automake
+            install: apt-get update && apt-get install -y build-essential gcc make autoconf automake perl m4
           - name: debian
             image: debian:stable
-            install: apt-get update && apt-get install -y build-essential gcc make autoconf automake
+            install: apt-get update && apt-get install -y build-essential gcc make autoconf automake perl m4
           - name: alpine
             image: alpine:latest
-            install: apk add --no-cache build-base gcc make autoconf automake
+            install: apk add --no-cache build-base gcc make autoconf automake perl m4
 
     steps:
       - name: Checkout source
